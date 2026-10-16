@@ -1,0 +1,5 @@
+{
+    "preset": "laravel",
+    "exclude": [".artifacts", "vendor"],
+    "rules": {"new_with_parentheses": {"anonymous_class": false}}
+}
