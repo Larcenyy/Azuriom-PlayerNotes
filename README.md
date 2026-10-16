@@ -13,7 +13,8 @@ Private player dossiers for Azuriom staff. Keep moderation context, support foll
 - Version history records the content, editor, pinned state and tag names at every change.
 - Concurrent changes are rejected instead of silently overwriting another staff member's work.
 - A link to the private dossier appears on the existing administration user edit page.
-- French and English translations, responsive Bootstrap 5 components and accessible form labels.
+- Automatic interface language selection with English, French, German, Spanish, Brazilian Portuguese, Dutch, Polish and Russian translations.
+- Responsive Bootstrap 5 components and accessible form labels.
 - No custom CSS, JavaScript, public routes, API controller, external service or additional runtime dependency.
 
 ## Requirements
@@ -33,6 +34,29 @@ The plugin uses Azuriom's existing user accounts and works independently of the 
 5. Grant `player-notes.tags` to the staff who should create labels such as Moderation, Support or Billing.
 
 No asset compilation or `composer install` inside the plugin is required for normal use.
+
+## Languages
+
+Like the Contact plugin, Player Notes uses Azuriom's native translation files in `resources/lang`. The interface automatically follows the site's configured locale, with Azuriom's configured fallback for languages without a translation. No translation service or API key is required.
+
+| Language | Azuriom locale |
+| --- | --- |
+| English | `en` |
+| French | `fr` |
+| German | `de` |
+| Spanish | `es_ES` |
+| Brazilian Portuguese | `pt_BR` |
+| Dutch | `nl` |
+| Polish | `pl` |
+| Russian | `ru` |
+
+Player names, note contents and custom tag names are entered by staff and remain as written.
+
+## Website navigation
+
+Under **Navigation → Create navbar element**, select **Plugin**, then **Player Notes** (or its translated name) in the link list. The provider registers this entry using the same route-description mechanism as Contact.
+
+This link opens the existing protected administration page. Visitors must sign in and have both `admin.access` and `player-notes.view`. To show the link only to staff, restrict the navbar element to the appropriate roles using Azuriom's standard visibility settings.
 
 ## Permissions
 
@@ -66,7 +90,7 @@ From the Azuriom root:
 php vendor/bin/phpunit -c plugins/player-notes/phpunit.xml
 ```
 
-The tests cover authorization, ownership, moderation, validation, escaped HTML, revisions, concurrency conflicts, pinning, tags, filtering, pagination, French translations, profile integration and migration rollback.
+The tests cover authorization, ownership, moderation, validation, escaped HTML, revisions, concurrency conflicts, pinning, tags, filtering, pagination, language selection, translation keys and placeholders, navbar registration, profile integration and migration rollback.
 
 The plugin exposes only authenticated administration routes under `/admin/player-notes`. All writes use CSRF-protected forms and explicit HTTP verbs. Private pages send `Cache-Control: private, no-store` and `X-Robots-Tag: noindex, nofollow`.
 

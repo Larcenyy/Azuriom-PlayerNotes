@@ -2,7 +2,7 @@
     "id": "player-notes",
     "name": "Player Notes",
     "description": "Private player dossiers for your staff, with tags, pinned notes, granular permissions and revision history.",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "url": "https://azuriom.com",
     "authors": ["Larceny | larceny.fr"],
     "azuriom_api": "1.2.0",

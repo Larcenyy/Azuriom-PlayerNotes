@@ -19,6 +19,7 @@ class PlayerNotesServiceProvider extends BasePluginServiceProvider
         $this->loadTranslations();
         $this->loadMigrations();
         $this->registerPolicies();
+        $this->registerRouteDescriptions();
         $this->registerAdminNavigation();
 
         $permissions = [];
@@ -29,6 +30,13 @@ class PlayerNotesServiceProvider extends BasePluginServiceProvider
 
         Permission::registerPermissions($permissions);
         View::composer('admin.users.edit', PlayerCardComposer::class);
+    }
+
+    protected function routeDescriptions(): array
+    {
+        return [
+            'player-notes.admin.index' => 'player-notes::admin.title',
+        ];
     }
 
     protected function adminNavigation(): array
