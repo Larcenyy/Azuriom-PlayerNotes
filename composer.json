@@ -1,8 +1,14 @@
 {
-    "name": "larceny/azuriom-player-notes",
-    "description": "Private staff notes for Azuriom players.",
+    "name": "larceny/azuriom-user-notes",
+    "description": "Private staff notes for Azuriom users.",
     "type": "azuriom-plugin",
     "license": "MIT",
-    "require": {"php": "^8.2"},
-    "autoload": {"psr-4": {"Azuriom\\Plugin\\PlayerNotes\\": "src/"}}
+    "require": {
+        "php": "^8.2"
+    },
+    "autoload": {
+        "psr-4": {
+            "Azuriom\\Plugin\\PlayerNotes\\": "src/"
+        }
+    }
 }

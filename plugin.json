@@ -1,10 +1,11 @@
 {
     "id": "player-notes",
-    "name": "Player Notes",
-    "description": "Private player dossiers for your staff, with tags, pinned notes, granular permissions and revision history.",
-    "version": "1.1.1",
-    "url": "https://azuriom.com",
-    "authors": ["Larceny | larceny.fr"],
+    "name": "User Notes",
+    "description": "Private user notes for staff, with tags, pinned notes, granular permissions and revision history.",
+    "version": "1.1.2",
+    "authors": [
+        "Larceny | larceny.fr"
+    ],
     "azuriom_api": "1.2.0",
     "providers": [
         "\\Azuriom\\Plugin\\PlayerNotes\\Providers\\PlayerNotesServiceProvider",
