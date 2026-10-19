@@ -1,15 +1,15 @@
 @extends('admin.layouts.admin')
 
-@section('title', trans('player-notes::admin.edit_tag'))
+@section('title', trans('user-notes::admin.edit_tag'))
 
 @section('content')
-    @include('player-notes::admin._navigation')
-    <a class="btn btn-outline-secondary mb-3" href="{{ route('player-notes.admin.tags.index') }}">{{ trans('player-notes::admin.cancel') }}</a>
+    @include('user-notes::admin._navigation')
+    <a class="btn btn-outline-secondary mb-3" href="{{ route('user-notes.admin.tags.index') }}">{{ trans('user-notes::admin.cancel') }}</a>
     <div class="card shadow-sm"><div class="card-body">
-        <form method="POST" action="{{ route('player-notes.admin.tags.update', $tag) }}">
+        <form method="POST" action="{{ route('user-notes.admin.tags.update', $tag) }}">
             @csrf
             @method('PUT')
-            @include('player-notes::admin.tags._form')
+            @include('user-notes::admin.tags._form')
         </form>
     </div></div>
 @endsection

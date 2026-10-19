@@ -1,12 +1,12 @@
 <?php
 
-namespace Azuriom\Plugin\PlayerNotes\Controllers\Admin;
+namespace Azuriom\Plugin\UserNotes\Controllers\Admin;
 
 use Azuriom\Http\Controllers\Controller;
 use Azuriom\Models\User;
-use Azuriom\Plugin\PlayerNotes\Models\Note;
-use Azuriom\Plugin\PlayerNotes\Models\Tag;
-use Azuriom\Plugin\PlayerNotes\Support\NoteFilters;
+use Azuriom\Plugin\UserNotes\Models\Note;
+use Azuriom\Plugin\UserNotes\Models\Tag;
+use Azuriom\Plugin\UserNotes\Support\NoteFilters;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
@@ -17,23 +17,23 @@ class NoteController extends Controller
     public function index(Request $request)
     {
         $notes = NoteFilters::apply(Note::query(), $request)
-            ->with(['player', 'author', 'editor', 'tags'])->paginate(15)->withQueryString();
+            ->with(['user', 'author', 'editor', 'tags'])->paginate(15)->withQueryString();
 
-        return view('player-notes::admin.index', [
+        return view('user-notes::admin.index', [
             'notes' => $notes,
             'tags' => Tag::orderBy('name')->get(),
             'authors' => User::whereIn('id', Note::select('author_id'))->orderBy('name')->get(),
         ]);
     }
 
-    public function store(Request $request, User $player)
+    public function store(Request $request, User $user)
     {
-        abort_if($player->isDeleted(), 404);
+        abort_if($user->isDeleted(), 404);
         $data = $this->validateNote($request);
 
-        DB::transaction(function () use ($request, $player, $data) {
+        DB::transaction(function () use ($request, $user, $data) {
             $note = new Note(Arr::only($data, ['title', 'content']));
-            $note->player()->associate($player);
+            $note->user()->associate($user);
             $note->author()->associate($request->user());
             $note->editor()->associate($request->user());
             $note->save();
@@ -41,26 +41,26 @@ class NoteController extends Controller
             $this->recordRevision($note, 'created');
         });
 
-        return to_route('player-notes.admin.players.show', $player)
-            ->with('success', trans('player-notes::admin.saved'));
+        return to_route('user-notes.admin.users.show', $user)
+            ->with('success', trans('user-notes::admin.saved'));
     }
 
-    public function edit(User $player, Note $note)
+    public function edit(User $user, Note $note)
     {
-        $this->assertPlayer($player, $note);
+        $this->assertUser($user, $note);
         $this->authorize('update', $note);
         $note->load('tags');
 
-        return view('player-notes::admin.edit', [
-            'player' => $player,
+        return view('user-notes::admin.edit', [
+            'user' => $user,
             'note' => $note,
             'tags' => Tag::orderBy('name')->get(),
         ]);
     }
 
-    public function update(Request $request, User $player, Note $note)
+    public function update(Request $request, User $user, Note $note)
     {
-        $this->assertPlayer($player, $note);
+        $this->assertUser($user, $note);
         $this->authorize('update', $note);
         $data = $this->validateNote($request, true);
 
@@ -74,25 +74,25 @@ class NoteController extends Controller
             $this->recordRevision($locked, 'updated');
         });
 
-        return to_route('player-notes.admin.players.show', $player)
-            ->with('success', trans('player-notes::admin.saved'));
+        return to_route('user-notes.admin.users.show', $user)
+            ->with('success', trans('user-notes::admin.saved'));
     }
 
-    public function destroy(Request $request, User $player, Note $note)
+    public function destroy(Request $request, User $user, Note $note)
     {
-        $this->assertPlayer($player, $note);
+        $this->assertUser($user, $note);
         $this->authorize('delete', $note);
         $request->validate(['version' => ['required', 'integer', 'min:1']]);
 
         DB::transaction(fn () => $this->lockNote($request, $note)->delete());
 
-        return to_route('player-notes.admin.players.show', $player)
-            ->with('success', trans('player-notes::admin.deleted'));
+        return to_route('user-notes.admin.users.show', $user)
+            ->with('success', trans('user-notes::admin.deleted'));
     }
 
-    public function pin(Request $request, User $player, Note $note)
+    public function pin(Request $request, User $user, Note $note)
     {
-        $this->assertPlayer($player, $note);
+        $this->assertUser($user, $note);
         $request->validate([
             'version' => ['required', 'integer', 'min:1'],
             'is_pinned' => ['required', 'boolean'],
@@ -112,24 +112,24 @@ class NoteController extends Controller
             $this->recordRevision($locked, $locked->is_pinned ? 'pinned' : 'unpinned');
         });
 
-        return to_route('player-notes.admin.players.show', $player)
-            ->with('success', trans('player-notes::admin.saved'));
+        return to_route('user-notes.admin.users.show', $user)
+            ->with('success', trans('user-notes::admin.saved'));
     }
 
-    public function history(User $player, Note $note)
+    public function history(User $user, Note $note)
     {
-        $this->assertPlayer($player, $note);
+        $this->assertUser($user, $note);
 
-        return view('player-notes::admin.history', [
-            'player' => $player,
+        return view('user-notes::admin.history', [
+            'user' => $user,
             'note' => $note,
             'revisions' => $note->revisions()->with('editor')->orderByDesc('version')->paginate(15),
         ]);
     }
 
-    private function assertPlayer(User $player, Note $note): void
+    private function assertUser(User $user, Note $note): void
     {
-        abort_unless($note->player_id === $player->id, 404);
+        abort_unless($note->player_id === $user->id, 404);
     }
 
     private function validateNote(Request $request, bool $updating = false): array
@@ -148,7 +148,7 @@ class NoteController extends Controller
         $locked = Note::lockForUpdate()->findOrFail($note->id);
 
         if ($locked->version !== $request->integer('version')) {
-            throw ValidationException::withMessages(['version' => trans('player-notes::admin.conflict')]);
+            throw ValidationException::withMessages(['version' => trans('user-notes::admin.conflict')]);
         }
 
         return $locked;

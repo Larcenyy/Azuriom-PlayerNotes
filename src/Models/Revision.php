@@ -1,6 +1,6 @@
 <?php
 
-namespace Azuriom\Plugin\PlayerNotes\Models;
+namespace Azuriom\Plugin\UserNotes\Models;
 
 use Azuriom\Models\User;
 use Illuminate\Database\Eloquent\Model;

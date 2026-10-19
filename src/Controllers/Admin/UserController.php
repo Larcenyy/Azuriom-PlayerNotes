@@ -1,23 +1,23 @@
 <?php
 
-namespace Azuriom\Plugin\PlayerNotes\Controllers\Admin;
+namespace Azuriom\Plugin\UserNotes\Controllers\Admin;
 
 use Azuriom\Http\Controllers\Controller;
 use Azuriom\Models\User;
-use Azuriom\Plugin\PlayerNotes\Models\Note;
-use Azuriom\Plugin\PlayerNotes\Models\Tag;
-use Azuriom\Plugin\PlayerNotes\Support\NoteFilters;
+use Azuriom\Plugin\UserNotes\Models\Note;
+use Azuriom\Plugin\UserNotes\Models\Tag;
+use Azuriom\Plugin\UserNotes\Support\NoteFilters;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
 
-class PlayerController extends Controller
+class UserController extends Controller
 {
     public function index(Request $request)
     {
         $data = $request->validate(['search' => ['nullable', 'string', 'max:150']]);
         $search = $data['search'] ?? '';
 
-        $players = User::query()->whereNull('deleted_at')
+        $users = User::query()->whereNull('deleted_at')
             ->when($search !== '', function (Builder $query) use ($search) {
                 $pattern = '%'.str_replace(['!', '%', '_'], ['!!', '!%', '!_'], $search).'%';
 
@@ -32,19 +32,19 @@ class PlayerController extends Controller
             ->addSelect(['notes_count' => Note::selectRaw('count(*)')->whereColumn('player_id', 'users.id')])
             ->orderBy('name')->orderBy('id')->paginate(20)->withQueryString();
 
-        return view('player-notes::admin.players', compact('players', 'search'));
+        return view('user-notes::admin.users', compact('users', 'search'));
     }
 
-    public function show(Request $request, User $player)
+    public function show(Request $request, User $user)
     {
-        $notes = NoteFilters::apply(Note::where('player_id', $player->id), $request)
-            ->with(['player', 'author', 'editor', 'tags'])->paginate(15)->withQueryString();
+        $notes = NoteFilters::apply(Note::where('player_id', $user->id), $request)
+            ->with(['user', 'author', 'editor', 'tags'])->paginate(15)->withQueryString();
 
-        return view('player-notes::admin.dossier', [
-            'player' => $player,
+        return view('user-notes::admin.dossier', [
+            'user' => $user,
             'notes' => $notes,
             'tags' => Tag::orderBy('name')->get(),
-            'authors' => User::whereIn('id', Note::select('author_id')->where('player_id', $player->id))
+            'authors' => User::whereIn('id', Note::select('author_id')->where('player_id', $user->id))
                 ->orderBy('name')->get(),
             'note' => new Note(),
         ]);

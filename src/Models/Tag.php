@@ -1,6 +1,6 @@
 <?php
 
-namespace Azuriom\Plugin\PlayerNotes\Models;
+namespace Azuriom\Plugin\UserNotes\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;

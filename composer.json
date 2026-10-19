@@ -8,7 +8,7 @@
     },
     "autoload": {
         "psr-4": {
-            "Azuriom\\Plugin\\PlayerNotes\\": "src/"
+            "Azuriom\\Plugin\\UserNotes\\": "src/"
         }
     }
 }

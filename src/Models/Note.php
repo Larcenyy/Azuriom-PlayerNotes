@@ -1,6 +1,6 @@
 <?php
 
-namespace Azuriom\Plugin\PlayerNotes\Models;
+namespace Azuriom\Plugin\UserNotes\Models;
 
 use Azuriom\Models\User;
 use Illuminate\Database\Eloquent\Model;
@@ -18,7 +18,7 @@ class Note extends Model
 
     protected $casts = ['is_pinned' => 'boolean', 'version' => 'integer'];
 
-    public function player(): BelongsTo
+    public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'player_id');
     }

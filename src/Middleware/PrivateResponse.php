@@ -1,6 +1,6 @@
 <?php
 
-namespace Azuriom\Plugin\PlayerNotes\Middleware;
+namespace Azuriom\Plugin\UserNotes\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;

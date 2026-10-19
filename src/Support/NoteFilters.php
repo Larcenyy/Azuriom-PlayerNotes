@@ -1,6 +1,6 @@
 <?php
 
-namespace Azuriom\Plugin\PlayerNotes\Support;
+namespace Azuriom\Plugin\UserNotes\Support;
 
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
@@ -21,7 +21,7 @@ class NoteFilters
 
             $query->where(function (Builder $query) use ($search) {
                 $query->whereRaw("title LIKE ? ESCAPE '!'", [$search])->orWhereRaw("content LIKE ? ESCAPE '!'", [$search])
-                    ->orWhereHas('player', function (Builder $query) use ($search) {
+                    ->orWhereHas('user', function (Builder $query) use ($search) {
                         $query->whereRaw("name LIKE ? ESCAPE '!'", [$search])->orWhereRaw("game_id LIKE ? ESCAPE '!'", [$search]);
                     });
             });
