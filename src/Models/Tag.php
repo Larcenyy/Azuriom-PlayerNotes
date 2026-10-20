@@ -9,12 +9,12 @@ class Tag extends Model
 {
     public const COLORS = ['secondary', 'primary', 'success', 'danger', 'warning', 'info', 'dark'];
 
-    protected $table = 'player_notes_tags';
+    protected $table = 'user_notes_tags';
 
     protected $fillable = ['name', 'color'];
 
     public function notes(): BelongsToMany
     {
-        return $this->belongsToMany(Note::class, 'player_notes_note_tag', 'tag_id', 'note_id');
+        return $this->belongsToMany(Note::class, 'user_notes_note_tag', 'tag_id', 'note_id');
     }
 }

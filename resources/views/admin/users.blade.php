@@ -8,8 +8,8 @@
         <div class="card-body">
             <form method="GET" action="{{ route('user-notes.admin.users.index') }}" class="row g-3 mb-4">
                 <div class="col-12 col-md-9">
-                    <label class="form-label" for="playerSearch">{{ trans('user-notes::admin.search_players') }}</label>
-                    <input class="form-control" type="search" id="playerSearch" name="search" maxlength="150" value="{{ $search }}">
+                    <label class="form-label" for="userSearch">{{ trans('user-notes::admin.search_users') }}</label>
+                    <input class="form-control" type="search" id="userSearch" name="search" maxlength="150" value="{{ $search }}">
                 </div>
                 <div class="col-12 col-md-3 d-flex align-items-end gap-2">
                     <button class="btn btn-primary" type="submit">{{ trans('user-notes::admin.search') }}</button>
@@ -35,7 +35,7 @@
                             <td><a class="btn btn-outline-primary btn-sm" href="{{ route('user-notes.admin.users.show', $user) }}">{{ trans('user-notes::admin.open_dossier') }}</a></td>
                         </tr>
                     @empty
-                        <tr><td colspan="5" class="text-muted text-center py-4">{{ trans('user-notes::admin.no_players') }}</td></tr>
+                        <tr><td colspan="5" class="text-muted text-center py-4">{{ trans('user-notes::admin.no_users') }}</td></tr>
                     @endforelse
                     </tbody>
                 </table>

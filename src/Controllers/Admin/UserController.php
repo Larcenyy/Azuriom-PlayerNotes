@@ -29,7 +29,7 @@ class UserController extends Controller
                     }
                 });
             })
-            ->addSelect(['notes_count' => Note::selectRaw('count(*)')->whereColumn('player_id', 'users.id')])
+            ->addSelect(['notes_count' => Note::selectRaw('count(*)')->whereColumn('user_id', 'users.id')])
             ->orderBy('name')->orderBy('id')->paginate(20)->withQueryString();
 
         return view('user-notes::admin.users', compact('users', 'search'));
@@ -37,14 +37,14 @@ class UserController extends Controller
 
     public function show(Request $request, User $user)
     {
-        $notes = NoteFilters::apply(Note::where('player_id', $user->id), $request)
+        $notes = NoteFilters::apply(Note::where('user_id', $user->id), $request)
             ->with(['user', 'author', 'editor', 'tags'])->paginate(15)->withQueryString();
 
         return view('user-notes::admin.dossier', [
             'user' => $user,
             'notes' => $notes,
             'tags' => Tag::orderBy('name')->get(),
-            'authors' => User::whereIn('id', Note::select('author_id')->where('player_id', $user->id))
+            'authors' => User::whereIn('id', Note::select('author_id')->where('user_id', $user->id))
                 ->orderBy('name')->get(),
             'note' => new Note(),
         ]);

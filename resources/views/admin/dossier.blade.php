@@ -19,7 +19,7 @@
         </div>
     </div>
     @if($user->isDeleted())
-        <div class="alert alert-warning" role="alert">{{ trans('user-notes::admin.deleted_player') }}</div>
+        <div class="alert alert-warning" role="alert">{{ trans('user-notes::admin.deleted_user_account') }}</div>
     @else
         @can('user-notes.create')
             <div class="card shadow-sm mb-4" id="addNote">
@@ -34,5 +34,5 @@
         @endcan
     @endif
     @include('user-notes::admin._filters', ['filterAction' => route('user-notes.admin.users.show', $user)])
-    @include('user-notes::admin._notes', ['emptyMessage' => 'user-notes::admin.no_player_notes'])
+    @include('user-notes::admin._notes', ['emptyMessage' => 'user-notes::admin.no_user_notes'])
 @endsection

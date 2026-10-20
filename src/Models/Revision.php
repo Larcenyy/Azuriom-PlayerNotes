@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Revision extends Model
 {
-    protected $table = 'player_notes_revisions';
+    protected $table = 'user_notes_revisions';
 
     protected $fillable = ['editor_id', 'version', 'action', 'title', 'content', 'is_pinned', 'tags'];
 

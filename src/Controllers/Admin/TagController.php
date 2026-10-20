@@ -46,7 +46,7 @@ class TagController extends Controller
     private function validateTag(Request $request, ?Tag $tag = null): array
     {
         return $request->validate([
-            'name' => ['required', 'string', 'max:50', 'regex:/\S/u', Rule::unique('player_notes_tags')->ignore($tag)],
+            'name' => ['required', 'string', 'max:50', 'regex:/\S/u', Rule::unique('user_notes_tags')->ignore($tag)],
             'color' => ['required', Rule::in(Tag::COLORS)],
         ]);
     }

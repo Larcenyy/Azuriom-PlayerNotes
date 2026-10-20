@@ -129,7 +129,7 @@ class NoteController extends Controller
 
     private function assertUser(User $user, Note $note): void
     {
-        abort_unless($note->player_id === $user->id, 404);
+        abort_unless($note->user_id === $user->id, 404);
     }
 
     private function validateNote(Request $request, bool $updating = false): array
@@ -138,7 +138,7 @@ class NoteController extends Controller
             'title' => ['required', 'string', 'max:150', 'regex:/\S/u'],
             'content' => ['required', 'string', 'max:10000', 'regex:/\S/u'],
             'tags' => ['nullable', 'array', 'max:10'],
-            'tags.*' => ['required', 'integer', 'distinct', 'exists:player_notes_tags,id'],
+            'tags.*' => ['required', 'integer', 'distinct', 'exists:user_notes_tags,id'],
             'version' => [$updating ? 'required' : 'prohibited', 'integer', 'min:1'],
         ]);
     }

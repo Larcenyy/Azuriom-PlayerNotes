@@ -33,8 +33,6 @@ Available languages: English (`en`), French (`fr`), German (`de`), Spanish (`es_
 
 To add a website navigation link, select **Plugin → User Notes** when creating a navbar element. Use the navbar role settings to display it only to staff.
 
-When upgrading from Player Notes, disable the old `player-notes` plugin, install this version in `plugins/user-notes/`, then enable User Notes. Existing notes are reused; role permissions and plugin navbar links are migrated automatically. Do not run both versions together. The old database table and column names remain unchanged.
-
 ## License
 
 MIT. See [LICENSE](LICENSE).

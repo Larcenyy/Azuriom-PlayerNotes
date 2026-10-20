@@ -16,7 +16,7 @@ class UserCardComposer extends AdminUserEditComposer
             return [];
         }
 
-        $view->with('userNotesCount', Note::where('player_id', $user->id)->count());
+        $view->with('userNotesCount', Note::where('user_id', $user->id)->count());
 
         return [[
             'name' => trans('user-notes::admin.title'),

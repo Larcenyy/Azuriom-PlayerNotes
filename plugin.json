@@ -2,7 +2,7 @@
     "id": "user-notes",
     "name": "User Notes",
     "description": "Private user notes for staff, with tags, pinned notes, granular permissions and revision history.",
-    "version": "1.2.0",
+    "version": "1.2.1",
     "authors": [
         "Larceny | larceny.fr"
     ],

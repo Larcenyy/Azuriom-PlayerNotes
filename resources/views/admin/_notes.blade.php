@@ -7,7 +7,7 @@
                 @endif
                 {{ $entry->title }}
             </h2>
-            <a href="{{ route('user-notes.admin.users.show', $entry->player_id) }}" class="text-break">{{ $entry->user->name }}</a>
+            <a href="{{ route('user-notes.admin.users.show', $entry->user_id) }}" class="text-break">{{ $entry->user->name }}</a>
         </div>
         <div class="card-body">
             <div class="text-break mb-3">{!! nl2br(e($entry->content)) !!}</div>
@@ -28,10 +28,10 @@
         </div>
         <div class="card-footer d-flex flex-wrap gap-2">
             @can('update', $entry)
-                <a class="btn btn-outline-primary btn-sm" href="{{ route('user-notes.admin.notes.edit', [$entry->player_id, $entry]) }}">{{ trans('user-notes::admin.edit') }}</a>
+                <a class="btn btn-outline-primary btn-sm" href="{{ route('user-notes.admin.notes.edit', [$entry->user_id, $entry]) }}">{{ trans('user-notes::admin.edit') }}</a>
             @endcan
             @can('user-notes.pin')
-                <form action="{{ route('user-notes.admin.notes.pin', [$entry->player_id, $entry]) }}" method="POST">
+                <form action="{{ route('user-notes.admin.notes.pin', [$entry->user_id, $entry]) }}" method="POST">
                     @csrf
                     @method('PATCH')
                     <input type="hidden" name="version" value="{{ $entry->version }}">
@@ -39,7 +39,7 @@
                     <button type="submit" class="btn btn-outline-secondary btn-sm">{{ trans($entry->is_pinned ? 'user-notes::admin.unpin' : 'user-notes::admin.pin') }}</button>
                 </form>
             @endcan
-            <a class="btn btn-outline-secondary btn-sm" href="{{ route('user-notes.admin.notes.history', [$entry->player_id, $entry]) }}">{{ trans('user-notes::admin.history') }}</a>
+            <a class="btn btn-outline-secondary btn-sm" href="{{ route('user-notes.admin.notes.history', [$entry->user_id, $entry]) }}">{{ trans('user-notes::admin.history') }}</a>
             @can('delete', $entry)
                 <button type="button" class="btn btn-outline-danger btn-sm" data-bs-toggle="modal" data-bs-target="#deleteNote{{ $entry->id }}">{{ trans('user-notes::admin.delete') }}</button>
             @endcan
@@ -55,7 +55,7 @@
                 <div class="modal-body text-break">{{ trans('user-notes::admin.delete_note_body', ['title' => $entry->title]) }}</div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">{{ trans('user-notes::admin.cancel') }}</button>
-                    <form method="POST" action="{{ route('user-notes.admin.notes.destroy', [$entry->player_id, $entry]) }}">
+                    <form method="POST" action="{{ route('user-notes.admin.notes.destroy', [$entry->user_id, $entry]) }}">
                         @csrf
                         @method('DELETE')
                         <input type="hidden" name="version" value="{{ $entry->version }}">

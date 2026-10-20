@@ -10,7 +10,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Note extends Model
 {
-    protected $table = 'player_notes';
+    protected $table = 'user_notes';
 
     protected $fillable = ['title', 'content'];
 
@@ -20,7 +20,7 @@ class Note extends Model
 
     public function user(): BelongsTo
     {
-        return $this->belongsTo(User::class, 'player_id');
+        return $this->belongsTo(User::class, 'user_id');
     }
 
     public function author(): BelongsTo
@@ -35,7 +35,7 @@ class Note extends Model
 
     public function tags(): BelongsToMany
     {
-        return $this->belongsToMany(Tag::class, 'player_notes_note_tag', 'note_id', 'tag_id');
+        return $this->belongsToMany(Tag::class, 'user_notes_note_tag', 'note_id', 'tag_id');
     }
 
     public function revisions(): HasMany
